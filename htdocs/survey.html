@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Business Frontpage - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" onclick = "location.href = 'webmain.html' ">Tonymony</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Image Background Page Header -->
+    <!-- Note: The background image is set within the business-casual.css file. -->
+    <header class="business-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-8">
+              <h2>설문 조사 페이지입니다.</h2>
+                <p>
+                </p>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <div class-"row">
+            <div class="col-md-12">
+              <h3>아래의 그림은 사계절 팔레트를 나타낸 그림입니다.</h3>
+              <h3>본인이 선호하는 사계절 팔레트를 선택해주시기 바랍니다.</h3>
+              <h3>신중하게 생각한 후, 선택해주시기 바랍니다.</h3>
+            </div>
+        </div>
+
+
+        <div class-"row">
+            <div class="col-md-3">
+              <img src="img/봄.png" alt="" onclick = check1()>
+
+            </div>
+            <div class="col-md-3">
+              <img src="img/여름.png" alt="" onclick = check2()>
+            </div>
+            <div class="col-md-3">
+              <img src="img/가을.png" alt="" onclick = check3()>
+            </div>
+            <div class="col-md-3">
+              <img src="img/겨울.png" alt="" onclick = check4()>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class-"row">
+            <div class="col-md-10">
+            </div>
+
+            <div class="col-md-2">
+              <button type="button" name="button1" class="btn btn-default" onclick = submit()>
+                  <img src="img/next.png">
+                  다음 단계
+              </button>
+            </div>
+        </div>
+
+        <div class-"row">
+            <div class="col-md-10">
+
+            </div>
+            <div class="col-md-2">
+
+            </div>
+        </div>
+
+        <div class-"row">
+            <div class="col-md-10">
+            </div>
+            <div class="col-md-2">
+              <button type="button" name="button1" class="btn btn-default" onclick = "location.href = 'webmain.html' ">
+                  <img src="img/back2.png">
+                  초기화면 가기
+              </button>
+            </div>
+        </div>
+
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; 아주대학교 소프트웨어학과 캡스톤디자인 2017</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+</body>
+
+<script>
+var survey1;
+
+function submit(){
+  alert("첫번째 설문조사는 " + survey1 + "번 사진입니다.");
+  location.href = 'survey2.html'
+}
+
+function check1(){
+  survey1 = 1;
+  alert("첫번째 사진을 선택하셨습니다.");
+}
+function check2(){
+  survey1 = 2;
+  alert("두번째 사진을 선택하셨습니다.");
+}
+function check3(){
+  survey1 = 3;
+  alert("세번째 사진을 선택하셨습니다.");
+}
+function check4(){
+  survey1 = 4;
+  alert("네번째 사진을 선택하셨습니다.");
+}
+
+</script>
+
+</html>
