@@ -62,7 +62,7 @@
 
         <div class="row">
             <div class="col-sm-8">
-              <h2>피부톤 측정 페이지입니다.</h2>
+              <h2>메이크업 추천 페이지입니다.</h2>
                 <p>
                 </p>
             </div>
@@ -73,51 +73,38 @@
 
         <div class="row">
               <img src="img/Dummy.png" alt="">
+              <h2>피부톤 결과</h2>
           </div>
 
         <hr>
 
         <div class-"row">
-            <div class="col-md-3">
-              <button type="button" name="button1" class="btn btn-default" onclick = skintest()>
-                  <img src="img/colorcircle.png">
-                  피부톤 측정
-              </button>
-            </div>
-            <div class="col-md-7">
-            </div>
-            <div class="col-md-2">
+          <div class="col-md-4">
               <button type="button" name="button1" class="btn btn-default" onclick = submit()>
-                  <img src="img/next.png">
-                  다음 단계
+                  <img src="img/facebook.png">
+                  결과 페이스북 메시지 전송
               </button>
-            </div>
-        </div>
+          </div>
 
-        <div class-"row">
-            <div class="col-md-10">
+          <div class="col-md-6">
+          </div>
 
-            </div>
-            <div class="col-md-2">
+          <div class="col-md-2">
+            <button type="button" name="button1" class="btn btn-default" onclick = "location.href = 'webmain.html' ">
+                <img src="img/back2.png">
+                초기화면 가기
+            </button>
+          </div>
 
-            </div>
-        </div>
-
-        <div class-"row">
-            <div class="col-md-10">
-            </div>
-            <div class="col-md-2">
-              <button type="button" name="button1" class="btn btn-default" onclick = "location.href = 'webmain.html' ">
-                  <img src="img/back2.png">
-                  초기화면 가기
-              </button>
-            </div>
         </div>
 
         <!-- /.row -->
 
         <hr>
 
+        <div class="row">
+              <img src="img/Temp2.png" alt="">
+        </div>
         <!-- Footer -->
         <footer>
             <div class="row">
@@ -134,23 +121,8 @@
 </body>
 
 <script>
-var testvalue = 0;
-
 function submit(){
-
-  if(testvalue == 0){
-    alert("피부톤 측정이 이루어지지 않았습니다. 피부톤 측정후 다음단계로 넘어가세요.");
-  }
-  else{
-  location.href = 'result.html'
-  }
+  location.href = 'message.html'
 }
-
-function skintest(){
-  testvalue = 1;
-  alert("피부톤 측정이 완료 되었습니다.");
-}
-
 </script>
-
 </html>

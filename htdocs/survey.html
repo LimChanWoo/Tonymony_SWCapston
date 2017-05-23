@@ -79,24 +79,31 @@
             </div>
         </div>
 
+        <div class="row">
+              <img src="img/Temp2.png" alt="">
+        </div>
 
         <div class-"row">
             <div class="col-md-3">
-              <img src="img/봄.png" alt="" onclick = check1()>
+              <img src="img/spring.png" alt="" onclick = check1()>
 
             </div>
             <div class="col-md-3">
-              <img src="img/여름.png" alt="" onclick = check2()>
+              <img src="img/summer.png" alt="" onclick = check2()>
             </div>
             <div class="col-md-3">
-              <img src="img/가을.png" alt="" onclick = check3()>
+              <img src="img/fall.png" alt="" onclick = check3()>
             </div>
             <div class="col-md-3">
-              <img src="img/겨울.png" alt="" onclick = check4()>
+              <img src="img/winter.png" alt="" onclick = check4()>
             </div>
         </div>
 
         <hr>
+
+        <div class="row">
+              <img src="img/Temp2.png" alt="">
+        </div>
 
         <div class-"row">
             <div class="col-md-10">
@@ -150,11 +157,16 @@
 </body>
 
 <script>
-var survey1;
+var survey1=0;
 
 function submit(){
-  alert("첫번째 설문조사는 " + survey1 + "번 사진입니다.");
-  location.href = 'survey2.html'
+  if(survey1 ==0 ){
+    alert("사진을 선택해주셔야 다음 단계로 넘어갈 수 있습니다.");
+  }
+  else{
+    alert("첫번째 설문조사는 " + survey1 + "번 사진입니다.");
+    location.href = 'survey2.html'
+  }
 }
 
 function check1(){

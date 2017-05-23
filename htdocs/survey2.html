@@ -78,6 +78,10 @@
             </div>
         </div>
 
+        <div class="row">
+              <img src="img/Temp2.png" alt="">
+        </div>
+
         <div class-"row">
             <div class="col-md-2">
               <img src="img/Chic.png" alt="" onclick = check1()>
@@ -123,6 +127,10 @@
 
         <hr>
 
+        <div class="row">
+              <img src="img/Temp2.png" alt="">
+        </div>
+
         <div class-"row">
             <div class="col-md-10">
             </div>
@@ -159,6 +167,8 @@
 
         <hr>
 
+
+
         <!-- Footer -->
         <footer>
             <div class="row">
@@ -175,11 +185,16 @@
 </body>
 
 <script>
-var survey2;
+var survey2 = 0;
 
 function submit(){
-  alert("두번째 설문조사는 " + survey2 + "번 사진입니다.");
-  location.href = 'result.html'
+  if(survey2 ==0 ){
+    alert("사진을 선택해주셔야 다음 단계로 넘어갈 수 있습니다.");
+  }
+  else{
+    alert("두번째 설문조사는 " + survey2 + "번 사진입니다.");
+    location.href = 'skintest.html'
+  }
 }
 
 function check1(){

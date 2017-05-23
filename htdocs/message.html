@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -62,7 +61,7 @@
 
         <div class="row">
             <div class="col-sm-8">
-              <h2>피부톤 측정 페이지입니다.</h2>
+              <h2>피부톤 판별 페이지입니다.</h2>
                 <p>
                 </p>
             </div>
@@ -73,23 +72,25 @@
 
         <div class="row">
               <img src="img/Dummy.png" alt="">
+              <h2>아래에 핸드폰 번호를 입력해주세요.</h2>
           </div>
 
         <hr>
 
         <div class-"row">
-            <div class="col-md-3">
-              <button type="button" name="button1" class="btn btn-default" onclick = skintest()>
-                  <img src="img/colorcircle.png">
-                  피부톤 측정
-              </button>
+            <div class="col-md-10">
+              <label for="fname">전화번호</label>
+              <input type="text" id="first" name="name" maxlength="3" size="3">
+              <label for="fname">-</label>
+              <input type="text" id="middle" name="birth" maxlength="4" size="4">
+              <label for="fname">-</label>
+              <input type="text" id="last" name="birth" maxlength="4" size="4">
             </div>
-            <div class="col-md-7">
-            </div>
+
             <div class="col-md-2">
               <button type="button" name="button1" class="btn btn-default" onclick = submit()>
-                  <img src="img/next.png">
-                  다음 단계
+                  <img src="img/check.png">
+                  전송하기
               </button>
             </div>
         </div>
@@ -118,6 +119,9 @@
 
         <hr>
 
+        <div class="row">
+              <img src="img/Temp2.png" alt="">
+        </div>
         <!-- Footer -->
         <footer>
             <div class="row">
@@ -134,23 +138,13 @@
 </body>
 
 <script>
-var testvalue = 0;
-
 function submit(){
+  var input = document.getElementById("first").value;
+  var input2 = document.getElementById("middle").value;
+  var input3 = document.getElementById("last").value;
 
-  if(testvalue == 0){
-    alert("피부톤 측정이 이루어지지 않았습니다. 피부톤 측정후 다음단계로 넘어가세요.");
-  }
-  else{
-  location.href = 'result.html'
-  }
+  alert("전화번호는 " + input + "-" + input2 + "-" + input3 + " 입니다.");
 }
-
-function skintest(){
-  testvalue = 1;
-  alert("피부톤 측정이 완료 되었습니다.");
-}
-
 </script>
 
 </html>
