@@ -135,15 +135,40 @@
     </div>
     <!-- /.container -->
 
+
 </body>
 
+    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
 <script>
 function submit(){
   var input = document.getElementById("name").value;
   var input2 = document.getElementById("birth").value;
 
-  alert("이름은 " + input + " 생일은 " + input2);
-  location.href = 'survey.html'
+  var http = new XMLHttpRequest();
+  var url = "https://tonymony.com/page/1";
+  var params;
+
+  http.open("POST", url, true);
+//Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  params="name="+input+"&"+"birth="+input2;
+  console.log(params);
+  http.send(params);
+
+  swal({
+  title: "입력 사용자 정보",
+  text: "이름:"+input+"\n생년월일:"+input2,
+  type: "success",
+  showCancelButton: true,
+  confirmButtonText: "Yes!",
+  closeOnConfirm: false
+},
+function(){
+  location.href = 'survey.html';
+});
+  //location.href = 'survey.html'
 }
 </script>
 

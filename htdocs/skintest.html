@@ -3,6 +3,59 @@
 
 <head>
 
+<style>
+/* Center the loader */
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 }
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom {
+  from{ bottom:-100px; opacity:0 }
+  to{ bottom:0; opacity:1 }
+}
+
+#myDiv {
+  display: none;
+  text-align: center;
+}
+</style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -72,7 +125,7 @@
         <hr>
 
         <div class="row">
-              <img src="img/Dummy.png" alt="">
+              <img src="img/sensorinfo.png" alt="">
           </div>
 
         <hr>
@@ -131,25 +184,182 @@
     </div>
     <!-- /.container -->
 
+
+    <div id="loader"></div>
 </body>
+<script src="sweetalert-master/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
 
 <script>
+document.getElementById("loader").style.display = "none";
+
+function wait(msecs)
+{
+  var start = new Date().getTime();
+  var cur = start;
+  while(cur - start < msecs)
+  {
+  cur = new Date().getTime();
+  }
+}
+
+
 var testvalue = 0;
-
 function submit(){
-
   if(testvalue == 0){
-    alert("피부톤 측정이 이루어지지 않았습니다. 피부톤 측정후 다음단계로 넘어가세요.");
+  swal({
+  title: " ",
+  text: "피부톤 측정이 이루어지지 않았습니다.\n 피부톤 측정후 다음단계로 넘어가세요.",
+  type: "warning",
+  confirmButtonColor: "#DD6B55",
+  confirmButtonText: "OK",
+  closeOnConfirm: false
+  });
+
   }
   else{
-  location.href = 'result.html'
+
+     document.getElementById("loader").style.display = "inline";
+     var result;
+     var xhr = new XMLHttpRequest();
+
+     xhr.onload = function(){
+     console.log(xhr.responseText);
+     result=xhr.responseText;
+     console.log(result);
+
+     if(result=="spring_pale")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-1.html'
+     }else if(result=="spring_light")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-2.html'
+     }
+     else if(result=="spring_vivid")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-3.html'
+     }
+     else if(result=="summer_whitish")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-4.html'
+     }
+     else if(result=="summer_pale")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-5.html'
+     }
+     else if(result=="summer_soft")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-6.html'
+     }
+     else if(result=="autumn_soft")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-7.html'
+     }
+     else if(result=="autumn_dull")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-8.html'
+     }
+     else if(result=="autumn_deep")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-9.html'
+     }
+     else if(result=="winter_vivid")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-10.html'
+     }else if(result=="winter_deep")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-11.html'
+     }else if(result=="winter_dark")
+     {
+       document.getElementById("loader").style.display = "none";
+       location.href = 'result1-12.html'
+     }
+     else{
+       document.getElementById("loader").style.display = "none";
+       swal({
+       title: " ",
+       text: "Server Error",
+       type: "warning",
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "OK",
+       closeOnConfirm: false
+       });
+     }
+    };
+    xhr.open("POST", "https://tonymony.com/page/5")
+    xhr.send();
+
   }
 }
+function skintest() {
+  document.getElementById("loader").style.display = "inline";
+ var http = new XMLHttpRequest();
+  var url = "https://tonymony.com/page/4";
+  var params;
+  http.open("POST", url, true);
 
-function skintest(){
-  testvalue = 1;
-  alert("피부톤 측정이 완료 되었습니다.");
-}
+//Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  http.onreadystatechange = function() {//Call a function when the state changes.
+    if(http.readyState == 4 && http.status == 200) {
+      alert(http.responseText);
+    }
+  }
+
+console.log("haha");
+    var ws = new WebSocket("ws://localhost:1900/");
+    ws.onopen = function (evt) {
+    };
+
+    ws.onmessage = function (evt) {
+        //alert("About to receive data");
+        document.getElementById("loader").style.display = "none";
+
+        var received_msg = evt.data;
+
+        var n = received_msg.includes("button_click Plsease");
+        if(n)
+        {
+            testvalue = 0;
+            swal({
+            title: " ",
+            text: "Cube 전원 버튼을 눌러주세요.",
+            type: "warning",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "OK",
+            closeOnConfirm: false
+            });
+        }
+        if(!n)
+        {
+          testvalue = 1;
+          swal(" ", "피부톤 측정이 완료되었습니다.", "success");
+          var params;
+          var l=received_msg.split("/");
+          
+          params="L="+l[1]+"&"+"A="+l[2]+"&"+"B="+l[3]
+          http.send(params);
+        }
+    };
+    ws.onclose = function () {
+        // websocket is closed.
+        document.getElementById("loader").style.display = "none";
+        swal(" ", "Cube 연결이 끊어졌습니다.", "warning");
+    };
+};
+
 
 </script>
 

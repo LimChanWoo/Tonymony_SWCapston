@@ -80,11 +80,17 @@
         <div class-"row">
             <div class="col-md-10">
               <label for="fname">전화번호</label>
-              <input type="text" id="first" name="name" maxlength="3" size="3">
+              <select id='first'>
+                <option value="82(010)" >010</option>
+                <option value="82(011)" >011</option>
+                <option value="82(018)">018</option>
+                <option value="82(017)">017</option>
+              </select>
+
               <label for="fname">-</label>
-              <input type="text" id="middle" name="birth" maxlength="4" size="4">
+              <input type="text" id="middle" name="birth" maxlength="4" size="4" style="height: 19px">
               <label for="fname">-</label>
-              <input type="text" id="last" name="birth" maxlength="4" size="4">
+              <input type="text" id="last" name="birth" maxlength="4" size="4" style="height: 19px">
             </div>
 
             <div class="col-md-2">
@@ -134,6 +140,8 @@
 
     </div>
     <!-- /.container -->
+    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
 
 </body>
 
@@ -143,7 +151,20 @@ function submit(){
   var input2 = document.getElementById("middle").value;
   var input3 = document.getElementById("last").value;
 
-  alert("전화번호는 " + input + "-" + input2 + "-" + input3 + " 입니다.");
+  var http = new XMLHttpRequest();
+  var url = "https://tonymony.com/page/6";
+  var params;
+  var pn=input + input2 + "-" + input3;
+
+  http.open("POST", url, true);
+//Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  params="phone="+pn;
+  console.log(params);
+  http.send(params);
+
+swal(" ", "FaceBook 메신저 전송을 완료하였습니다.", "success");
 }
 </script>
 

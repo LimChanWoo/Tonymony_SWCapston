@@ -103,6 +103,10 @@
             </div>
         </div>
 
+        <div class="row">
+              <img src="img/Temp2.png" alt="">
+        </div>
+
         <div class-"row">
             <div class="col-md-2">
               <img src="img/Tender.png" alt="" onclick = check7()>
@@ -181,71 +185,88 @@
 
     </div>
     <!-- /.container -->
-
+    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
 </body>
 
 <script>
-var survey2 = 0;
+var survey2;
+
+function wait(msecs)
+{
+  var start = new Date().getTime();
+  var cur = start;
+  while(cur - start < msecs)
+  {
+  cur = new Date().getTime();
+  }
+}
 
 function submit(){
-  if(survey2 ==0 ){
-    alert("사진을 선택해주셔야 다음 단계로 넘어갈 수 있습니다.");
-  }
-  else{
-    alert("두번째 설문조사는 " + survey2 + "번 사진입니다.");
-    location.href = 'skintest.html'
-  }
-}
 
+  var http = new XMLHttpRequest();
+  var url = "https://tonymony.com/page/3";
+  var params;
+
+  http.open("POST", url, true);
+//Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  params="prefer_image="+survey2;
+
+  console.log(params);
+  http.send(params);
+
+  wait(1000);
+  location.href = 'skintest.html'
+}
 function check1(){
-  survey2 = 1;
-  alert("첫번째 사진을 선택하셨습니다.");
+  survey2 = 'chic';
+  swal("","첫번째 사진을 선택하셨습니다.");
 }
 function check2(){
-  survey2 = 2;
-  alert("두번째 사진을 선택하셨습니다.");
+  survey2 = 'calm';
+  swal("","두번째 사진을 선택하셨습니다.");
 }
 function check3(){
-  survey2 = 3;
-  alert("세번째 사진을 선택하셨습니다.");
+  survey2 = 'sociable';
+  swal("","세번째 사진을 선택하셨습니다.");
 }
 function check4(){
-  survey2 = 4;
-  alert("네번째 사진을 선택하셨습니다.");
+  survey2 = 'cool';
+  swal("","네번째 사진을 선택하셨습니다.");
 }
 function check5(){
-  survey2 = 5;
-  alert("다섯번째 사진을 선택하셨습니다.");
+  survey2 = 'passionate';
+  swal("","다섯번째 사진을 선택하셨습니다.");
 }
 function check6(){
-  survey2 = 6;
-  alert("여섯번째 사진을 선택하셨습니다.");
+  survey2 = 'professional';
+  swal("","여섯번째 사진을 선택하셨습니다.");
 }
 function check7(){
-  survey2 = 7;
-  alert("일곱번째 사진을 선택하셨습니다.");
+  survey2 = 'tender';
+  swal("","일곱번째 사진을 선택하셨습니다.");
 }
 function check8(){
-  survey2 = 8;
-  alert("여덟번째 사진을 선택하셨습니다.");
+  survey2 = 'sensible';
+  swal("","여덜번째 사진을 선택하셨습니다.");
 }
 function check9(){
-  survey2 = 9;
-  alert("아홉번째 사진을 선택하셨습니다.");
+  survey2 = 'friendly';
+  swal("","아홉번째 사진을 선택하셨습니다.");
 }
 function check10(){
-  survey2 = 10;
-  alert("열번째 사진을 선택하셨습니다.");
+  survey2 = 'charismatic';
+  swal("","열번째 사진을 선택하셨습니다.");
 }
 function check11(){
-  survey2 = 11;
-  alert("열한번째 사진을 선택하셨습니다.");
+  survey2 = 'intellectual';
+  swal("","열한번째 사진을 선택하셨습니다.");
 }
 function check12(){
-  survey2 = 12;
-  alert("열두번째 사진을 선택하셨습니다.");
+  survey2 = 'cold';
+  swal("","열두번째 사진을 선택하셨습니다.");
 }
-
 </script>
 
 </html>

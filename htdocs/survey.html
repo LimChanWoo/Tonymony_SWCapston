@@ -155,35 +155,57 @@
     <!-- /.container -->
 
 </body>
-
+    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
 <script>
 var survey1=0;
 
-function submit(){
-  if(survey1 ==0 ){
-    alert("사진을 선택해주셔야 다음 단계로 넘어갈 수 있습니다.");
-  }
-  else{
-    alert("첫번째 설문조사는 " + survey1 + "번 사진입니다.");
-    location.href = 'survey2.html'
+
+function wait(msecs)
+{
+  var start = new Date().getTime();
+  var cur = start;
+  while(cur - start < msecs)
+  {
+  cur = new Date().getTime();
   }
 }
 
+
+function submit(){
+
+  var http = new XMLHttpRequest();
+  var url = "https://tonymony.com/page/2";
+  var params;
+
+  http.open("POST", url, true);
+//Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  params="prefer_season="+survey1;
+
+  console.log(params);
+  http.send(params);
+  wait(1000);
+  location.href = 'survey2.html'
+}
+
+
 function check1(){
-  survey1 = 1;
-  alert("첫번째 사진을 선택하셨습니다.");
+  survey1 = 'spring';
+  swal("","첫번째 사진을 선택하셨습니다.");
+
 }
 function check2(){
-  survey1 = 2;
-  alert("두번째 사진을 선택하셨습니다.");
+  survey1 = 'summer';
+  swal("","두번째 사진을 선택하셨습니다.");
 }
 function check3(){
-  survey1 = 3;
-  alert("세번째 사진을 선택하셨습니다.");
+  survey1 ='autumn';
+  swal("","세번째 사진을 선택하셨습니다.");
 }
 function check4(){
-  survey1 = 4;
-  alert("네번째 사진을 선택하셨습니다.");
+  survey1 = 'winter';
+  swal("","네번째 사진을 선택하셨습니다.");
 }
 
 </script>
