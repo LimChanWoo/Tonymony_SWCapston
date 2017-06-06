@@ -6,15 +6,19 @@ var bodyParser = require('body-parser')
 var request = require('request');
 var async = require('async');
 var prediction = require('@google-cloud/prediction');
+var math = require('math');
+
+var db = require('./TONYMONY_DB.js');
+db.connect_db();
 
 var options = {
-    key: fs.readFileSync('privatekey'),
-    cert: fs.readFileSync('cert'),
-    ca: fs.readFileSync('ca')
+    key: fs.readFileSync(privatekey),
+    cert: fs.readFileSync(cert),
+    ca: fs.readFileSync(ca)
 };
 
-const PAGE_ACCESS_TOKEN = 'page_token';
-const imageUrl = 'image_logo';
+const PAGE_ACCESS_TOKEN = page_access_token
+const imageUrl = logo.png;
 var port = 443;
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,7 +36,7 @@ app.get('/', function (req, res) {
 
 // Facebook Webhook
 app.get('/webhook', function (req, res) {
-    if (req.query['hub.verify_token'] === 'verify_token') {
+    if (req.query['hub.verify_token'] === verify_token) {
         res.send(req.query['hub.challenge']);
     } else {
         res.send('Invalid verify token');
@@ -68,36 +72,44 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+function receivedMessage(event) {
+
+}
+
 app.get('/test', function ( req, res ) {
-  var messageData = {
-    recipient: {
-      phone_number: '+82(010)0000-0000'
-    },
-    message:{
-      attachment:{
-        type: 'template',
-        payload:{
-          template_type:'generic',
-          elements:[
-             {
-              title:'Eric님의 피부톤은?',
-              image_url: imageUrl,
-              subtitle:'봄웜 톤입니다.',
-              buttons:[
-                {
-                  "type":"web_url",
-                  "url": 'image_url',
-                  "title":"자세한 결과보기"
-                }
-              ]
-            }
-          ]
-        }
+  db.select_from_cosmetics(function(err, rows) {
+    l = 75.212515;
+    a = 18.9594;
+    b = 27.18943;
+    count = rows.length;
+//    console.log('L값 : ', l, ' A값 : ', a, ' B값 : ', b);
+//    console.log('화장품 데이터베이스 개수 : ', count);
+
+    var distance = new Array();
+    var min = 9999;
+    var diff_L;
+    var diff_A;
+    var diff_B;
+    var index;
+
+    for(var i = 0; i < count; i++) {
+      diff_L = l - rows[i].L;
+      diff_A = a - rows[i].A;
+      diff_B = b - rows[i].B;
+      distance[i] = math.sqrt(math.pow(diff_L, 2) + math.pow(diff_A, 2) + math.pow(diff_B, 2));
+      console.log(distance[i]);
+      if(min > distance[i]) {
+        min = distance[i];
+        index = i;
       }
     }
-  };
-  callSendAPI(messageData);
+    console.log('ID : ', index, rows[index].made, rows[index].product);
+  });
 });
+
+function getDistance(l, a, b) {
+  return math.sqrt(math.pow(l) + math.pow(a) + math.pow(b));
+}
 
 function facebookMsg(name, phone, tone, link) {
   var messageData = {
@@ -227,15 +239,15 @@ app.post('/page/3', function ( req, res) {
 *tone, subtone
 *************************************************************************/
 var tone;
-var subtone;
+var subtone = 'autumn_soft';
 var l, a, b;
 var differencesBwithA;
 
 var predictionClient = prediction({
-	projectId: 'projectId'
+	projectId: projectId
 });
 
-var model = predictionClient.model('tonymonytest');
+var model = predictionClient.model(predictionModel);
 
 app.post('/page/4', function ( req, res ) {
   async.waterfall([
@@ -296,18 +308,68 @@ app.post('/page/4', function ( req, res ) {
 *POST
 *send subtone;
 *************************************************************************/
-app.post('/page/5', function(res, req) {
-  console.log('/page/5 : Sending Tone Result');
+app.post('/page/5', function(req, res) {
+  console.log('/page/5 : Sending Tone Result')
 
-  res.send(subtone);
+//  l = 75.212515;
+//  a = 18.9594;
+//  b = 27.18943;
+  var made;
+  var product;
+
+  db.select_from_cosmetics(res, function(err, rows) {
+    async.waterfall([
+      function(callback) {
+        count = rows.length;
+        console.log('L값 : ', l, ' A값 : ', a, ' B값 : ', b);
+        console.log('화장품 데이터베이스 개수 : ', count);
+
+        var distance = new Array();
+        var min = 9999;
+        var diff_L;
+        var diff_A;
+        var diff_B;
+        var index;
+
+        for(var i = 0; i < count; i++) {
+          diff_L = l - rows[i].L;
+          diff_A = a - rows[i].A;
+          diff_B = b - rows[i].B;
+          distance[i] = math.sqrt(math.pow(diff_L, 2) + math.pow(diff_A, 2) + math.pow(diff_B, 2));
+    //      console.log(distance[i]);
+          if(min > distance[i]) {
+            min = distance[i];
+            index = i;
+          }
+        }
+        console.log('ID : ', index, rows[index].made, rows[index].product);
+        console.log(subtone+'/'+rows[index].made+'/'+rows[index].product);
+        made = rows[index].made;
+        product = rows[index].product;
+
+        callback(null, made, product);
+      },
+      function(made, product, callback) {
+        var link_ai = ai_imageurl;
+        var link_product = product_imageurl;
+        var encode_link_ai = link_ai.replace(/(\s)/gi, "%20");
+        var encode_link_product = link_product.replace(/(\s)/gi, "%20");
+
+        console.log(subtone+'@'+made+'@'+product);
+        console.log(encode_link_ai);
+        console.log(encode_link_product);
+        res.send(subtone+'@'+made+'@'+product+'@'+encode_link_ai+'@'+encode_link_product);
+        callback(null, 'end');
+      }
+    ]);
+  });
 });
-
 
 /*********************************************************************
 *page/6
 *POST
 *phone
-*************************************************************************/
+**********************************************************************/
 var phone;
 var toneValue;
 var link;
@@ -320,7 +382,7 @@ app.post('/page/6', function(req, res) {
       callback(null, phone);
     },
     function(phone, callback) {
-      link = 'subtone.png';
+      link = imageurl;
       if(tone == 'spring') toneValue = '봄웜';
       else if(tone == 'summer') toneValue = '여름쿨';
       else if(tone == 'autumn') toneValue = '가을웜';
@@ -335,3 +397,9 @@ app.post('/page/6', function(req, res) {
     }
   ]);
 });
+
+/*********************************************************************
+*page/7
+*POST
+*phone
+***********************************************************************/
