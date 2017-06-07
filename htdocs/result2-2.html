@@ -225,6 +225,7 @@
 
         <div class="row">
               <img src="img/scool.png" alt="">
+              <h2>피부톤 결과</h2>
           </div>
 
         <hr>
@@ -258,12 +259,47 @@
 
     </div>
     <!-- /.container -->
-
+    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
 </body>
 
 <script>
+
 function submit(){
-  location.href = 'message.html'
+  swal({
+  title: "휴대폰 번호를 입력하세요.",
+  text: "ex)01063215509, ' - ' 없이 입력하세요.",
+  type: "input",
+  showCancelButton: true,
+  closeOnConfirm: false,
+  animation: "slide-from-top",
+  inputPlaceholder: "Write something"
+},
+function(inputValue){
+  if (inputValue === false) return false;
+
+  if (inputValue === "" || inputValue.length != 11 || isNaN(inputValue)) {
+    swal.showInputError("올바른 형식으로 입력하세요!");
+    return false
+  }
+  swal("메시지가 전송되었습니다!", "You phone number: " + inputValue, "success");
+
+  var http = new XMLHttpRequest();
+  var url = "https://tonymony.com/page/6";
+  var params;
+  var pn="82("+inputValue[0]+inputValue[1]+inputValue[2]+")"+inputValue[3]+inputValue[4]+inputValue[5]+inputValue[6]+"-"+inputValue[7]+inputValue[8]+inputValue[9]+inputValue[10];
+
+
+  http.open("POST", url, true);
+//Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  params="phone="+pn;
+  console.log(params);
+  http.send(params);
+
+
+});
 }
 </script>
 </html>
