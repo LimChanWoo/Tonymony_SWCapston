@@ -18,7 +18,7 @@
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></sc ript>
     <![endif]-->
 
 </head>
@@ -62,9 +62,7 @@
 
         <div class="row">
             <div class="col-sm-8">
-              <h2>통계확인 페이지입니다.</h2>
-              <p>통계확인 페이지입니다.</p>
-              <p>보고싶은 통계를 선택해주세요.</p>
+              <h1>통계</h1>
                 <p>
                 </p>
             </div>
@@ -72,11 +70,19 @@
         <!-- /.row -->
 
         <hr>
-
-        <div class="row">
-              <img src="img/test.png" alt="">
-              <h2>통계</h2>
-          </div>
+        <div class-"row">
+            <div class="col-md-4">
+              <div id="donutchart1" style="width: 650px; height: 500px;"></div>
+            </div>
+            <div class="col-md-4">
+              <div id="donutchart2" style="width: 650px; height: 500px;"></div>
+              </button>
+            </div>
+            <div class="col-md-4">
+              <div id="donutchart3" style="width: 650px; height: 500px;"></div>
+              </button>
+            </div>
+        </div>
 
         <hr>
 
@@ -111,5 +117,96 @@
     <!-- /.container -->
 
 </body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+
+      var f_20;
+      var m_20;
+      var l_20;
+
+      window.onload = function(){
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function(){
+
+          var response_stat=JSON.parse(xhr.responseText);
+          f_20=response_stat.이십대.초반;
+
+          m_20=JSON.parse(xhr.responseText);
+          m_20=response_stat.이십대.중반;
+
+          l_20=JSON.parse(xhr.responseText);
+          l_20=response_stat.이십대.후반;
+
+          google.charts.load("current", {packages:["corechart"]});
+          google.charts.setOnLoadCallback(drawChart);
+
+        };
+        xhr.open("POST", "https://tonymony.com/page/7");
+        xhr.send();
+      };
+
+
+      function drawChart() {
+        console.log(f_20);
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['봄 웜톤',     parseInt(f_20.봄웜)],
+          ['여름 쿨톤',    parseInt(f_20.여름쿨)],
+          ['가을 웜톤',  parseInt(f_20.가을웜)],
+          ['겨울 쿨톤', parseInt(f_20.겨울쿨)]
+        ]);
+
+
+        var data2 = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['봄 웜톤',     parseInt(m_20.봄웜)],
+          ['여름 쿨톤',    parseInt(m_20.여름쿨)],
+          ['가을 웜톤',  parseInt(m_20.가을웜)],
+          ['겨울 쿨톤', parseInt(m_20.겨울쿨)]
+        ]);
+
+        var data3 = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['봄 웜톤',     parseInt(l_20.봄웜)],
+          ['여름 쿨톤',    parseInt(l_20.여름쿨)],
+          ['가을 웜톤',  parseInt(l_20.가을웜)],
+          ['겨울 쿨톤', parseInt(l_20.겨울쿨)]
+        ]);
+
+        var options = {
+          title: '20대 초반 피부톤',
+          pieHole: 0.4,
+          is3D: true,
+          enableInteractivity:false
+        };
+        var options2 = {
+          title: '20대 중반 피부톤',
+          pieHole: 0.4,
+          is3D: true,
+            enableInteractivity:false
+        };
+        var options3 = {
+          title: '20대 후반 피부톤',
+          pieHole: 0.4,
+          is3D: true,
+            enableInteractivity:false
+          };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart1'));
+        var chart2 = new google.visualization.PieChart(document.getElementById('donutchart2'));
+        var chart3 = new google.visualization.PieChart(document.getElementById('donutchart3'));
+
+        chart.draw(data, options);
+        chart2.draw(data2, options2);
+        chart3.draw(data3, options3);
+      }
+    </script>
+
+  </head>
+
+ </head>
+
 
 </html>

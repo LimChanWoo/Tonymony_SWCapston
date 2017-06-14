@@ -74,21 +74,37 @@
         <hr>
 
         <div class="row">
-              <img src="img/test.png" alt="">
-              <h2>데이터베이스</h2>
+            <h2>데이터베이스</h2>
           </div>
 
         <hr>
-
+        <div id="table_div"></div>
+      <br><br>
         <div class-"row">
-            <div class="col-md-10">
+            <div class="col-md-8">
+              브랜드: <input type="text" id="brand" style="width: 125px;">
+              모델명: <input type="text" id="model" style="width: 125px;">
+              종류: <input type="text" id="sort" style="width: 125px;">
+              L: <input type="text" id="L_input" style="width: 40px;">
+              A: <input type="text" id="A_input" style="width: 40px;">
+              B: <input type="text" id="B_input" style="width: 40px;">
             </div>
+          </div>
+          <div class="col-md-2">
+            <button type="button" name="button1" class="btn btn-default" onclick ="createItem()">
+                <img src="img/back2.png">
+                추가
+            </button>
+          </div>
             <div class="col-md-2">
-              <button type="button" name="button1" class="btn btn-default" onclick = "location.href = 'webmain.html' ">
-                  <img src="img/back2.png">
-                  초기화면 가기
-              </button>
-            </div>
+
+
+          <button type="button" name="button1" class="btn btn-default" onclick = "deleteItem()">
+              <img src="img/back2.png">
+              삭제
+          </button>
+          </div>
+
         </div>
 
         <!-- /.row -->
@@ -110,7 +126,175 @@
 
     </div>
     <!-- /.container -->
-
+    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
 </body>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      var response_stat;
+      var select_row;
+
+      window.onload = function(){
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function(){
+
+          response_stat=JSON.parse(xhr.responseText);
+          console.log(response_stat.length);
+
+          google.charts.load('current', {'packages':['table']});
+          google.charts.setOnLoadCallback(drawTable);
+
+        };
+        xhr.open("POST", "https://tonymony.com/page/11/show");
+        xhr.send();
+      };
+
+      function selectID(message)
+      {
+        select_row=parseInt(message);
+        console.log(select_row);
+      }
+
+
+      function createItem()
+      {
+         var b = document.getElementById("brand").value;
+         var m = document.getElementById("model").value;
+         var s = document.getElementById("sort").value;
+         var l = document.getElementById("L_input").value;
+         var a = document.getElementById("A_input").value;
+         var b = document.getElementById("B_input").value;
+
+         if(b && m && s && l && a &&b)
+         {
+           var http = new XMLHttpRequest();
+           http.open("POST", "https://tonymony.com/page/11/insert", true);
+         //Send the proper header information along with the request
+           http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+           var params="made="+b+"&&"+"product="+m+"&&"+"type="+s+"&&"+"L="+l+"&&"+"A="+a+"&&"+"B="+b;
+
+           console.log(params);
+           http.send(params);
+
+           location.reload();
+
+         }else{
+           swal({
+             title: " ",
+           text: "입력 양식을 모두 채우세요!",
+           type: "warning",
+           confirmButtonColor: "#DD6B55",
+           confirmButtonText: "OK",
+           closeOnConfirm: false
+           });
+         }
+      }
+
+      function deleteItem()
+      {
+        if(select_row)
+        {
+          swal({
+            title: "선택 화장품을 지우시겠습니까?",
+            text: "삭제 완료하면,데이터를 복구할 수 없습니다!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "네, 삭제하겠습니다!",
+            cancelButtonText: "아니오.",
+            closeOnConfirm: false,
+            closeOnCancel: false
+          },
+          function(isConfirm){
+            if (isConfirm) {
+              var http = new XMLHttpRequest();
+              http.open("POST", "https://tonymony.com/page/11/delete", true);
+            //Send the proper header information along with the request
+              http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+              var params="id="+select_row;
+
+              console.log(params);
+              http.send(params);
+
+              swal("삭제 완료되었습니다!", "화장품 항목이 삭제되었습니다.", "success");
+              location.reload();
+            } else {
+              swal("취소 되었습니다.", "화장품 항목이 삭제되지 않았습니다. :)", "error");
+            }
+          });
+        }else{
+
+          swal({
+            title: " ",
+          text: "삭제할 화장품을 선택하세요!",
+          type: "warning",
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "OK",
+          closeOnConfirm: false
+          });
+        }
+      }
+
+      function drawTable() {
+        var self=this;
+        var data = new google.visualization.DataTable();
+        var index=1;
+        data.addColumn('string', '화장품 브랜드');
+        data.addColumn('string', '모델명');
+        data.addColumn('string', '종류');
+        data.addColumn('number', 'L');
+        data.addColumn('number', 'A');
+        data.addColumn('number', 'B');
+        data.addColumn('number', '제품 ID');
+
+        for(index=1;index<response_stat.length;index++)
+        {
+            console.log(response_stat[index].Id);
+            data.addRows([
+              [response_stat[index].made,response_stat[index].product  ,response_stat[index].type,{v: parseInt(response_stat[index].L)},{v: parseInt(response_stat[index].A)},{v: parseInt(response_stat[index].B)},{v: parseInt(response_stat[index].Id)}],
+              ]);
+        }
+
+
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+
+        google.visualization.events.addListener(table, 'select', selectHandler);
+
+        function selectHandler() {
+          var selection = table.getSelection();
+
+          var message = '';
+          for (var i = 0; i < selection.length; i++) {
+            var item = selection[i];
+            if (item.row != null && item.column != null) {
+              var str = data.getFormattedValue(item.row, item.column);
+              message += '{row:' + item.row + ',column:' + item.column + '} = ' + str + '\n';
+            } else if (item.row != null) {
+              var str = data.getFormattedValue(item.row, 6);
+              message += '{row:' + item.row + ', column:none}; value (col 0) = ' + str + '\n';
+            } else if (item.column != null) {
+              var str = data.getFormattedValue(6, item.column);
+              message += '{row:none, column:' + item.column + '}; value (row 0) = ' + str + '\n';
+            }
+          }
+          if (message == '') {
+            message = 'nothing';
+          }
+          self.selectID(str);
+        }
+      }
+
+
+    </script>
+  </head>
+  <body>
+
+  </body>
 
 </html>

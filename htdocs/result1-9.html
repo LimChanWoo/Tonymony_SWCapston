@@ -357,9 +357,9 @@ xhr.onload = function(){
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
       ["Element", "Value", { role: "style" } ],
-      ["L(밝기)", 8.94, l_result],
-      ["A(빨강/초록)", 10.49, a_result],
-      ["B(노랑/파)", 19.30, b_result],
+      ["L(밝기)", parseInt(lab[0]), l_result],
+      ["A(빨강/초록)", parseInt(lab[1]), a_result],
+      ["B(노랑/파)", parseInt(lab[2]), b_result],
 
     ]);
 

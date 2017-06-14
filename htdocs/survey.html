@@ -216,7 +216,9 @@
 
         <div class="row">
             <div class="col-sm-8">
-              <h2>설문 조사 페이지</h2>
+              <div class="row">
+                    <img src="img/Temp2.png" alt="">
+              </div>
                 <p>
                 </p>
             </div>
@@ -227,8 +229,8 @@
 
         <div class-"row">
             <div class="col-md-12">
-              <h3>세상에 아래의 네가지 색 조합만 존재합니다.</h3>
-              <h3>본인이 선호하는 조합은 무엇입니까?</h3>
+              <h3>아래에는 4가지 색상 조합 팔레트가 있습니다.</h3>
+              <h3>본인이 선호하는 색상 팔레트는 무엇입니까?</h3>
               <h3>신중하게 생각한 후, 선택해주시기 바랍니다.</h3>
             </div>
         </div>
@@ -258,6 +260,9 @@
         <div class="row">
               <img src="img/Temp2.png" alt="">
         </div>
+        <div class="row">
+              <img src="img/Temp2.png" alt="">
+        </div>
 
         <div class-"row">
             <div class="col-md-10">
@@ -284,6 +289,9 @@
         <!-- Footer -->
         <footer>
             <div class="row">
+              <div class="row">
+                    <img src="img/Temp2.png" alt="">
+              </div>
                 <div class="col-lg-12">
                     <p>Copyright &copy; 아주대학교 소프트웨어학과 캡스톤디자인 2017</p>
                 </div>
@@ -323,10 +331,22 @@ function submit(){
   http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   params="prefer_season="+survey1;
 
-  console.log(params);
-  http.send(params);
-  wait(1000);
-  location.href = 'survey2.html'
+  if(survey1=="")
+  {
+    swal({
+    title: "색상을 선택하세요!",
+    type: "warning",
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "OK",
+    closeOnConfirm: false
+    });
+
+  }else{
+      http.send(params);
+      wait(1000);
+      location.href = 'survey2.html'
+  }
+
 }
 
 
